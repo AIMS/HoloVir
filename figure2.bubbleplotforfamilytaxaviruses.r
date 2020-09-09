@@ -1,0 +1,32 @@
+isme2016=read.csv("Family_Comparison_all_samples_normalized_counts_no_PhiX-ex.top30june2020.csv")
+library(ggplot2)
+library(reshape2)
+isme2016_df=melt(isme2016)
+#@Using keywords as id variables
+#View(isme2016_df)
+#> View(df_isme2016)
+#> names(df_isme2016)c('sample','keywords','frequency')
+#Error: unexpected symbol in "names(df_isme2016)c"
+names(isme2016_df)=c('family','sample','abundance')
+write.csv(isme2016_df, file="Family_Comparison_all_samples_normalized_counts_no_PhiX-ex.top30june2020.reordered.csv")
+allsponge=read.csv("Family_Comparison_all_samples_normalized_counts_no_PhiX-ex.atop30jun2020.reordered.csv")
+#allsponge_df=melt(allsponge)
+#View(allsponge_df)
+#names(allsponge_df)=c('family','sample','frequency')
+#write.csv(allsponge_df, file="Family_Comparison_all_samples_normalized_counts_no_PhiX-ex.reordered.csv")
+#####add the species
+allspongereloaded=read.csv("Family_Comparison_all_samples_normalized_counts_no_PhiX-ex.top30june2020.reordered.csv")
+allspongereloaded$sample<-factor(allspongereloaded$sample, levels=c("GBR_CALLY_37","GBR_CALLY_46","GBR_CALLY_66","GBR_CAR_14","GBR_CAR_2","GBR_CAR_24","GBR_CINA_35","GBR_CINA_60","GBR_CINA_61","GBR_CYM_25","GBR_CYM_30","GBR_CYM_9","GBR_ECHI_13","GBR_ECHI_34","GBR_ECHI_42","GBR_IAN_31","GBR_IAN_38","GBR_IAN_52","GBR_LAM_44","GBR_LAM_48","GBR_LAM_71","GBR_PIP_19","GBR_PIP_58","GBR_PIP_63","GBR_STY_33","GBR_STY_70","RS_AOC_150","RS_AOC_153","RS_AOC_202","RS_CAR_111","RS_CAR_112","RS_CAR_129","RS_CRE_178","RS_CRE_184","RS_CRE_214","RS_HYR_175","RS_HYR_180","RS_MYC_127","RS_MYC_176","RS_MYC_197","RS_NIP_200","RS_NIP_211","RS_XES_102","RS_XES_136","GBR_SW","RS_SW"))
+allspongereloaded$keywords<-factor(allspongereloaded$family, levels=rev(c("Viruses","dsDNA viruses","Ascoviridae","Asfarviridae","Bicaudaviridae","Caudovirales","Caudovirales;Myoviridae","Caudovirales;Podoviridae","Caudovirales;Siphoviridae","unclassified Caudovirales","Iridoviridae","Marseilleviridae","Mimiviridae","Nimaviridae","Phycodnaviridae","Poxviridae","Tectiviridae","unclassified dsDNA phages","unclassified dsDNA viruses","Caulimoviridae","Retroviridae","ssDNA viruses","Circoviridae","Inoviridae","Microviridae","unclassified ssDNA viruses","unclassified Bidnaviridae","unclassified Sphaerolipoviridae","unclassified phages","unclassified viruses")))
+allspongereloaded$species<-factor(allspongereloaded$species, levels=c("Callyspongia sp.","C. foliascens","C. schulzei","C. marshae","E. isaaci","I. basta","L. herbacea","P. candelabra","S. carteri","A. ochracea","Carteriospongia sp.","C. cyathophora","H. erectus","Mycale sp.","N. rowi","X. testudinaria","GBR Seawater","Red Sea Seawater"))
+#                                                                                                                                  Scale for 'colour' is already present. Adding another scale for 'colour', which will replace the existing scale.
+#p <- ggplot(isme2016_df, aes(y=keywords,x=sample,size=frequency))+geom_point()
+#p <- p+ scale_color_manual()
+#ggplot(isme2016_df, aes(x=keywords,y=sample,size=frequency))+geom_point()+scale_size_area(max_size=10,trans="log10")+theme(axis.title.x=element_blank(), axis.ticks.y=element_blank(), text=element_text(size=20), axis.text.x=element_blank(), axis.ticks.x=element_blank(), panel.background=element_blank(), axis.title.y=element_blank())+ coord_fixed(ratio = 1.2))
+#+ggplot(isme2016species, aes(x=keywords,y=sample,size=frequency, color=species))+geom_point()+scale_size_area(max_size=10,trans="log10")+theme(axis.title.x=element_blank(), axis.ticks.y=element_blank(), text=element_text(size=20), axis.text.x=element_blank(), axis.ticks.x=element_blank(), panel.background=element_blank(), axis.title.y=element_blank())+ coord_fixed(ratio = 1.2)
+#aes(x=keywords,y=sample,size=frequency, color=keywords)  scale_size_area(max_size=8)
+allspongereloaded <-subset(allspongereloaded,abundance > 9) 
+ggplot(allspongereloaded, aes(y=keywords,x=sample,size=abundance,color=species))+geom_point()+scale_size(range=c(0.1,5),breaks=c(10,100,1000,2000,3000))+theme(axis.title.x=element_blank(), axis.ticks.y=element_blank(), text=element_text(size=6), axis.text.x=element_blank(), axis.ticks.x=element_blank(), panel.background=element_blank(), axis.title.y=element_blank())+ coord_fixed(ratio = 0.6)+scale_color_manual(values=c("steelblue3","skyblue","aquamarine","lightcyan3","navyblue","slateblue1","azure3","purple4","darkmagenta","plum3","darkgreen","grey40","grey70","darkseagreen","forestgreen","olivedrab","royalblue","royalblue3"))
+#ggplot(isme2016species, aes(y=keywords,x=sample,size=frequency,color=species))+geom_point()+scale_size_area(max_size=5)+theme(axis.title.x=element_blank(), axis.ticks.y=element_blank(), text=element_text(size=11), axis.text.x=element_blank(), axis.ticks.x=element_blank(), panel.background=element_blank(), axis.title.y=element_blank())+ coord_fixed(ratio = 0.7)+scale_color_manual(values=c("magenta3","plum2","mediumpurple","violetred1","forestgreen","turquoise","royalblue","royalblue3"))
+
++scale_size(range = c(10,100), name="Abundance")
