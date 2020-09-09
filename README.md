@@ -1,6 +1,8 @@
 # HoloVir 1.0 
 HoloVir is a robust and flexible data analysis pipeline that provides an optimised and validated workflow for taxonomic and functional characterisation of viral metagenomes
 
+this version of holovir contains the CLC assembly protocol and R scripts as presented in Microbiome paper Pascelli, C., Laffy, P.W., Botte, E., Kupresanin, M., Rattei, T., Lurgi, M., Ravasi, T. and Webster, N.S. (2020) Viral Ecogenomics across the Porifera. Microbiome
+
 Dependencies
 ---
 - [BBMAP 35](https://sourceforge.net/projects/bbmap/)  
